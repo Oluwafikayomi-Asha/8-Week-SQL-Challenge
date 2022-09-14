@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 -- Question 1: What is the total amount each customer spent at the restaurant?
 --Method 1
 SELECT customer_id, SUM(price) total_amount
@@ -146,3 +147,6 @@ ON m.product_id = s.product_id
 LEFT JOIN dannys_diner.members c
 ON c.customer_id = s.customer_id
 ORDER BY 1,2
+=======
+
+>>>>>>> 996c073df76a608e9a99721485c197bfa640135d
