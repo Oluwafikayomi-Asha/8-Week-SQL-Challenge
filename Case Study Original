@@ -1,0 +1,7 @@
+-- QUESTION 1 answer
+
+SELECT s.customer_id,
+       SUM(m.price) AS total_amount
+FROM dannys_diner.sales AS s
+LEFT JOIN dannys_diner.menu AS m USING (product_id)
+GROUP BY 1
