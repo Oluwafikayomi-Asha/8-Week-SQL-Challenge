@@ -1,4 +1,5 @@
-/* --------------------
+--
+ /* --------------------
    Case Study Questions
    --------------------*/ -- 1. What is the total amount each customer spent at the restaurant?
 -- 2. How many days has each customer visited the restaurant?
@@ -27,4 +28,3 @@ SELECT customer_id,
 FROM dannys_diner.sales
 GROUP BY customer_id
 ORDER BY no_of_days desc;
-
