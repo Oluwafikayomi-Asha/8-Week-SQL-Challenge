@@ -1,6 +1,0 @@
--- Question 1
-
-SELECT s.customer_id
-FROM books
-WHERE danny = bolu
-GROUP BY calid
