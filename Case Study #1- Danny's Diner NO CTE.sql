@@ -28,7 +28,7 @@ ORDER BY total_amount DESC;
 
 SELECT sales.customer_id,
        COUNT(DISTINCT order_date) AS number_of_visits
-FROM sales
+FROM danny_diner.sales
 GROUP BY customer_id;
 
 -- 3. What was the first item from the menu purchased by each customer?
