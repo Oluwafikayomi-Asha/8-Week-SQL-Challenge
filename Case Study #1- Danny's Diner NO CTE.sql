@@ -24,7 +24,11 @@ INNER JOIN dannys_diner.sales USING(product_id)
 GROUP BY customer_id
 ORDER BY total_amount DESC;
 
--- 2. How many days has each customer visited the restaurant?
+/* ##Answer:
+
+Customer A spent $76.
+Customer B spent $74.
+Customer C spent $36. */ -- 2. How many days has each customer visited the restaurant?
 
 SELECT sales.customer_id,
        COUNT(DISTINCT order_date) AS number_of_visits
