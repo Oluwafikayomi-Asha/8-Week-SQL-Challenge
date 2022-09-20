@@ -15,8 +15,8 @@
 -- 8. What is the total items and amount spent for each member before they became a member?
 -- 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 -- 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
- 
  -- 1. What is the total amount each customer spent at the restaurant?
+
 SELECT SUM(price) AS total_amount,
        customer_id
 FROM dannys_diner.menu
@@ -27,24 +27,17 @@ ORDER BY total_amount DESC;
 /* Answer:
 Customer A spent $76.
 Customer B spent $74.
-Customer C spent $36. */ 
+Customer C spent $36. */ -- 2. How many days has each customer visited the restaurant?
 
-
--- 2. How many days has each customer visited the restaurant?
 SELECT sales.customer_id,
        COUNT(DISTINCT order_date) AS number_of_visits
 FROM dannys_diner.sales
 GROUP BY customer_id;
 
-<<<<<<< HEAD
 /* Answer:
 Customer A visited 4 days.
 Customer B visited 6 days.
 Customer C visited 2 days. */ -- 3. What was the first item from the menu purchased by each customer?
-=======
-
--- 3. What was the first item from the menu purchased by each customer?
->>>>>>> a0967ea7b933bd269234f2f2c1d2fe9adeb4cfb7
 
 SELECT DISTINCT customer_id,
                 order_date,
@@ -148,8 +141,8 @@ Customer B has a total of 940 points earned.
 Customer C has a total of 360 points earned. */ -- 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
 
 SELECT s.customer_id,
+SELECT s.customer_id,
        SUM(CASE
-<<<<<<< HEAD
                WHEN product_name = 'sushi' THEN 20*(price)
                WHEN s.order_date BETWEEN join_date AND join_date + 6 THEN 20*(price)
                ELSE 10*(price)
@@ -161,18 +154,3 @@ WHERE s.order_date < '2021-01-31'
 GROUP BY 1 /* Answer:
 Customer A has a total of 1370 points earned.
 Customer B has a total of 820 points earned. */
-=======
-               WHEN members.customer_id = 'A'
-                    AND sales.order_date BETWEEN '2021-01-07' AND '2021-01-13' THEN menu.price * 20
-               WHEN members.customer_id = 'B'
-                    AND sales.order_date BETWEEN '2021-01-09' AND '2021-01-15' THEN menu.price * 20
-               WHEN menu.product_name = 'sushi' THEN menu.price * 20
-               ELSE menu.price * 10
-           END) AS total_points
-FROM dannys_diner.sales
-INNER JOIN dannys_diner.members USING(customer_id)
-INNER JOIN dannys_diner.menu USING(product_id)
-WHERE sales.order_date BETWEEN '2020-01-01' AND '2020-01-31'
-GROUP BY members.customer_id
-ORDER BY members.customer_id;
->>>>>>> a0967ea7b933bd269234f2f2c1d2fe9adeb4cfb7
