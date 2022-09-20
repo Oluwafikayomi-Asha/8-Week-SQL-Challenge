@@ -15,8 +15,8 @@
 -- 8. What is the total items and amount spent for each member before they became a member?
 -- 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 -- 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
+ 
  -- 1. What is the total amount each customer spent at the restaurant?
-
 SELECT SUM(price) AS total_amount,
        customer_id
 FROM dannys_diner.menu
@@ -24,16 +24,18 @@ INNER JOIN dannys_diner.sales USING(product_id)
 GROUP BY customer_id
 ORDER BY total_amount DESC;
 
-/* ##Answer:
-
+/* Answer:
 Customer A spent $76.
 Customer B spent $74.
-Customer C spent $36. */ -- 2. How many days has each customer visited the restaurant?
+Customer C spent $36. */ 
 
+
+-- 2. How many days has each customer visited the restaurant?
 SELECT sales.customer_id,
        COUNT(DISTINCT order_date) AS number_of_visits
 FROM dannys_diner.sales
 GROUP BY customer_id;
+
 
 -- 3. What was the first item from the menu purchased by each customer?
 
