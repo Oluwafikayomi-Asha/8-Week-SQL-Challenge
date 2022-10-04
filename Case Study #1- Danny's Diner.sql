@@ -39,7 +39,7 @@ Customer C spent $36. */
 
 -- 2. How many days has each customer visited the restaurant?
 SELECT sales.customer_id,
-       COUNT(DISTINCT order_date) AS number_of_visits
+       COUNT(DISTINCT order_date) AS no_of_visits
 FROM dannys_diner.sales
 GROUP BY customer_id;
 
@@ -56,8 +56,7 @@ SELECT DISTINCT customer_id,
 FROM dannys_diner.menu
 INNER JOIN dannys_diner.sales AS s USING(product_id)
 ORDER BY s.order_date,
-         s.customer_id
-LIMIT 4;
+         s.customer_id;
 
 /* Answer:
 Customer A’s first item ordered from the menu is curry and sushi. Talk about an appetite!
