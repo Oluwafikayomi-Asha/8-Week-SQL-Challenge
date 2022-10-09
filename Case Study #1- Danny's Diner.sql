@@ -74,30 +74,31 @@ ORDER BY times_purchased DESC
 LIMIT 1;
 
 /* Answer:
-Ramen is the most purchased item on the menu, and it was purchased 8 times. Ramen is so delicious!*/ 
+Ramen was purchased 8 times making it the most purchased item on the menu*/ 
 
 
 -- 5. Which item was the most popular for each customer?
 SELECT sales.customer_id,
        menu.product_name,
-       COUNT(menu.product_id) AS number_of_purchases
+       COUNT(menu.product_id) AS most_popular_item
 FROM dannys_diner.menu
 INNER JOIN dannys_diner.sales USING(product_id)
 GROUP BY menu.product_name,
          sales.customer_id
-ORDER BY number_of_purchases DESC
+ORDER BY most_popular_item DESC
 LIMIT 6;
 
 /* Answer:
-Ramen is the most popular item for customer A and C.
-Customer B equally likes the curry, ramen, and sushi. */ 
+At 3, ramen is the most popular item for both customer A and customer C. 
+customer B on the otherhand has three most popular items : ramen, curry and sushi */ 
 
 
 -- 6. Which item was purchased first by the customer after they became a member?
 SELECT DISTINCT members.join_date,
-                sales.customer_id,
-                sales.order_date,
-                menu.product_name
+               sales.order_date,
+               sales.customer_id,
+               sales.order_date,
+               menu.product_name as first_item_purchased
 FROM dannys_diner.sales
 INNER JOIN dannys_diner.members USING(customer_id)
 INNER JOIN dannys_diner.menu USING(product_id)
@@ -107,15 +108,15 @@ ORDER BY sales.order_date DESC,
 OFFSET 3;
 
 /* Answer:
-Customer A’s first item purchased after becoming a member is curry.
-Customer B’s first item purchased after becoming a member is sushi.*/ 
+The first item customer A purchased after becoming a member is curry
+while The first item customer B purchased after becoming a member is sushi.*/ 
 
 
 -- 7. Which item was purchased just before the customer became a member?
 SELECT DISTINCT members.join_date,
-                sales.customer_id,
-                sales.order_date,
-                menu.product_name
+                 sales.order_date,
+                 sales.customer_id,
+                menu.product_name as item_purchased
 FROM dannys_diner.sales
 INNER JOIN dannys_diner.members USING(customer_id)
 INNER JOIN dannys_diner.menu USING(product_id)
@@ -125,14 +126,14 @@ ORDER BY sales.order_date DESC,
 LIMIT 4;
 
 /* Answer:
-Customer B’s menu item purchased just before becoming a member is sushi. This customer really loves Danny’s sushi!
-Customer A’s menu item purchased just before becoming a member are sushi and curry. */ 
+The item purchased by customer A before becoming a member are curry and sushi 
+while the item purchased by customer B before becoming a member is sushi. */ 
 
 
 -- 8. What is the total items and amount spent for each member before they became a member?
-SELECT sales.customer_id AS customer,
-       SUM(menu.price) AS total_spent,
-       COUNT(DISTINCT menu.product_id) AS number_of_different_menu_items
+SELECT sales.customer_id AS member,
+       COUNT(DISTINCT menu.product_id) AS total_items,
+       SUM(menu.price) AS amount_spent
 FROM dannys_diner.sales
 INNER JOIN dannys_diner.members USING(customer_id)
 INNER JOIN dannys_diner.menu USING(product_id)
@@ -140,26 +141,26 @@ WHERE sales.order_date < members.join_date
 GROUP BY sales.customer_id;
 
 /* Answer:
-Customer A purchased 2 items and spent $25.
-Customer B purchased 2 items and spent $40 */ 
+customer A's total items is 2 and amount spent is 25
+while customer B's total items is 2 and amount spent is 40. */ 
 
 
 -- 9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 SELECT sales.customer_id,
        SUM(CASE
                WHEN menu.product_name = 'sushi' THEN menu.price * 20
-               WHEN menu.product_name = 'curry' THEN menu.price * 10
                WHEN menu.product_name = 'ramen' THEN menu.price * 10
-           END) AS points_earned
+               WHEN menu.product_name = 'curry' THEN menu.price * 10
+           END) AS points
 FROM dannys_diner.menu
 INNER JOIN dannys_diner.sales USING(product_id)
 GROUP BY sales.customer_id
 ORDER BY sales.customer_id;
 
 /* Answer:
-Customer A has a total of 860 points earned.
-Customer B has a total of 940 points earned.
-Customer C has a total of 360 points earned. */ 
+customer A has 860 points
+customer B has 940 points
+customer C has 360 points. */ 
 
 
 -- 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
@@ -177,5 +178,4 @@ WHERE s.order_date < '2021-01-31'
 GROUP BY 1 
 
 /* Answer:
-Customer A has a total of 1370 points earned.
-Customer B has a total of 820 points earned. */
+customer A had 1370 points while customer B had 820 points. */
